@@ -1,0 +1,2 @@
+Coloque aqui os arquivos de instância (ex.: car-f-92.stu, benchmark de Carter) e descreva a origem e o link de download.
+Formato .stu: uma linha por aluno, com as provas separadas por espaço.

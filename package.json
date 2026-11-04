@@ -1,0 +1,6 @@
+{
+  "name": "coloracao-provas",
+  "version": "1.0.0",
+  "description": "Alocação de horários de provas por coloração de grafos",
+  "scripts": { "test": "node tests/testes.js", "start": "python3 -m http.server 8000" }
+}

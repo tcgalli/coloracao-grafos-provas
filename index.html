@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101c35">
+<title>ProvaGrafos — Alocação inteligente de provas</title>
+<link rel="stylesheet" href="css/estilo.css">
+</head>
+<body>
+<header class="topbar">
+ <div class="brand"><span class="brand-mark">◈</span><div><strong>ProvaGrafos</strong><small>Teoria dos Grafos na prática</small></div></div>
+ <div class="top-actions"><span class="top-tag">Projeto acadêmico · Demonstração interativa</span><button id="bMode" type="button" class="mode-button" aria-expanded="false">⚙ Modo avançado</button></div>
+</header>
+<div class="shell">
+ <div class="intro"><div><span class="eyebrow">ALOCANDO PROVAS SEM CONFLITOS</span><h1>Menos horários. Nenhum aluno com duas provas ao mesmo tempo.</h1><p>Veja como a coloração de grafos transforma conflitos entre disciplinas em uma organização de horários.</p></div><div class="concepts"><span><i class="symbol node"></i> Bolinha = prova</span><span><i class="symbol edge"></i> Linha = conflito</span><span><i class="symbol colors"></i> Cor = horário</span></div></div>
+ <main class="workspace">
+  <aside class="sidebar">
+   <div class="panel"><div class="step-heading"><span class="step">1</span><div><h2>Defina a quantidade de provas e alunos</h2><p>Gere um problema grande em segundos, sem digitar matrículas.</p></div></div>
+    <div class="generator-box">
+     <div class="row">
+      <div><label for="numProvas">Número de provas</label><input id="numProvas" type="number" min="2" max="1500" value="60" step="1"></div>
+      <div><label for="numAlunos">Número de alunos</label><input id="numAlunos" type="number" min="1" max="30000" value="600" step="1"></div>
+     </div>
+     <button class="primary full big" type="button" id="bGenerateNumbers">Gerar cenário e organizar</button>
+     <p class="fine">O sistema simula as matrículas, identifica conflitos e calcula os horários necessários. O resultado é uma simulação, não matrículas reais.</p>
+    </div>
+    <details class="preset-details"><summary>Ou importar matrículas reais de um arquivo</summary>
+    <div class="import-box">
+     <label for="fileMain" class="import-label">Carregar arquivo de matrículas (.txt, .csv, .stu)</label>
+     <input type="file" id="fileMain" accept=".txt,.csv,.stu">
+     <p class="fine">Uma linha por aluno; provas separadas por espaço ou vírgula. Exemplo: <code>MAT FIS QUI</code></p>
+     <button class="secondary full" type="button" id="bSample">Usar exemplo: 600 alunos e 60 provas</button>
+     <details class="paste-details"><summary>Colar matrículas manualmente (opcional)</summary><textarea id="pasted" rows="5" placeholder="MAT FIS QUI&#10;MAT HIS&#10;FIS BIO"></textarea><button class="secondary full" type="button" id="bPaste">Processar matrículas coladas</button></details>
+     <p id="importStatus" class="fine" role="status">Dados de demonstração podem ser carregados com um clique.</p>
+    </div>
+    </details>
+    <details class="preset-details"><summary>Exemplos didáticos de grafos</summary>
+    <div class="examples">
+     <button type="button" class="example" data-preset="vazio"><span class="example-icon">○ ○ ○</span><strong>Sem conflitos</strong><small>10 provas · 1 horário</small></button>
+     <button type="button" class="example selected" data-preset="c9"><span class="example-icon">⬡</span><strong>Alguns conflitos</strong><small>9 provas · ciclo C9</small></button>
+     <button type="button" class="example" data-preset="k8"><span class="example-icon">✣</span><strong>Todos em conflito</strong><small>8 provas · grafo K8</small></button>
+     <button type="button" class="example" data-preset="coroa"><span class="example-icon">◎</span><strong>Comparar algoritmos</strong><small>40 provas · grafo coroa</small></button>
+    </div>
+    </details>
+    <div class="hidden-basic" id="advancedInput">
+     <div class="subheading">Dados e exemplos personalizados</div>
+     <label for="preset">Exemplos originais</label><select id="preset"><option value="coroa">Coroa 20+20 (bipartido)</option><option value="k8">K8 completo</option><option value="c9" selected>Ciclo ímpar C9</option><option value="vazio">Sem arestas (10 provas)</option></select><button class="secondary full" id="bPreset">Carregar exemplo selecionado</button>
+     <label>Grafo aleatório G(n, p)</label><div class="row"><input id="gn" type="number" value="300" min="1" max="2000" aria-label="Número de vértices"><input id="gp" type="number" value="0.1" step="0.01" min="0" max="1" aria-label="Probabilidade de aresta"></div><button class="secondary full" id="bRand">Gerar grafo aleatório</button>
+     <label>Matrículas sintéticas (provas × alunos)</label><div class="row"><input id="en" type="number" value="200" min="2" max="1500" aria-label="Número de provas"><input id="es" type="number" value="2000" min="1" max="30000" aria-label="Número de alunos"></div><button class="secondary full" id="bEnr">Gerar matrículas</button>
+     <label for="seed">Semente aleatória</label><input id="seed" type="number" value="42">
+     <label for="fmt">Formato do arquivo</label><select id="fmt"><option value="stu">Matrículas (.stu, um aluno por linha)</option><option value="edges">Lista de arestas (A B por linha)</option></select>
+     <label for="file">Importar dados (.txt, .csv ou .stu)</label><input id="file" type="file" accept=".txt,.csv,.stu"><p class="fine">Compatível com arquivos de matrículas no formato Carter. Os cenários gerados são sintéticos.</p>
+    </div>
+   </div>
+   <div class="panel"><div class="step-heading"><span class="step">2</span><div><h2>Escolha a estratégia</h2><p>Como o sistema decide os horários.</p></div></div>
+    <label for="algo" class="label-strong">Algoritmo</label><select id="algo"><option value="in">Guloso — ordem de entrada</option><option value="rand">Guloso — ordem aleatória</option><option value="wp">Guloso — Welsh-Powell</option><option value="sl">Guloso — Smallest-Last</option><option value="dsatur" selected>DSATUR (recomendado)</option><option value="exact">Exato (até 150 provas)</option></select>
+    <p id="algoHelp" class="explain-small">Prioriza a prova que já tem mais restrições de horários entre suas vizinhas.</p>
+    <details class="preset-details"><summary>Definir limite de horários (opcional)</summary><label for="kmax">Quantidade máxima de horários disponíveis</label><input id="kmax" type="number" min="1" placeholder="Automático: sem limite"><p class="fine">Se o limite for insuficiente, o programa avisará que nem todas as provas puderam ser alocadas.</p></details>
+    <button id="bRun" class="primary full big">▶ Organizar provas</button>
+    <button id="bCmp" class="secondary full">Comparar algoritmos</button>
+   </div>
+   <div class="panel compact hidden-basic"><h2>Verificação técnica</h2><p class="muted">Execute os 17 testes automatizados.</p><button id="bTest" class="secondary full">Rodar testes automáticos</button><div id="log" class="test-log"></div></div>
+  </aside>
+  <section class="content">
+   <div class="panel graph-panel">
+    <div class="graph-head"><div><div class="step-heading"><span class="step">3</span><div><h2>Veja a distribuição das provas</h2><p id="scenarioCaption">Carregue matrículas para representar conflitos entre provas.</p></div></div></div><div class="graph-tools"><label for="vmode">Visualização</label><select id="vmode"><option value="auto">Automática</option><option value="force">Grafo</option><option value="groups">Por horário</option></select></div></div>
+    <div class="big-stats" id="simpleStats" aria-live="polite"></div>
+    <div class="result-message" id="summary" aria-live="polite">Importe matrículas ou use o exemplo com 600 alunos. Depois organize as provas.</div>
+    <div class="cvw"><canvas id="cv" aria-label="Grafo que representa provas e conflitos"></canvas><div id="tip"></div></div>
+    <div class="graph-footer"><div id="legend"></div><p class="note" id="vnote"></p></div>
+    <div class="hidden-basic"><h3>Indicadores técnicos</h3><div id="stats" class="stats"></div></div>
+   </div>
+   <div class="bottom-grid">
+    <div class="panel"><div class="section-head"><div><h2>Calendário gerado</h2><p class="muted">Provas com a mesma cor podem ocorrer juntas.</p></div></div><div id="slots" class="slots"><p class="muted">Execute um algoritmo para ver os horários.</p></div></div>
+    <div class="panel"><div class="section-head"><div><h2>Comparação de estratégias</h2><p class="muted">Menos cores significa menos horários.</p></div><span class="tiny-pill">Clique para ver</span></div><div id="cmp" class="tw"><p class="muted">Clique em “Comparar algoritmos” para ver os resultados.</p></div></div>
+   </div>
+  </section>
+ </main>
+ <footer>Projeto de Teoria dos Grafos · Algoritmos e validadores preservados do projeto original · Horários representam períodos, não horas fixas.</footer>
+</div>
+<script src="js/util.js"></script><script src="js/grafo.js"></script><script src="js/coloracao.js"></script><script src="js/validacao.js"></script><script src="js/entrada.js"></script><script src="tests/casos.js"></script><script src="js/visualizacao.js"></script><script src="js/ui.js"></script>
+</body></html>
