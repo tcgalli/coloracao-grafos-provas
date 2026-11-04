@@ -6,9 +6,9 @@ Aplicação web para resolver o problema de **alocação de horários de provas*
 
 | Nome | RA / Matrícula | Contribuição principal |
 |---|---|---|
-| _Nome 1_ | _RA_ | _ex.: algoritmos de coloração_ |
-| _Nome 2_ | _RA_ | _ex.: interface e visualização_ |
-| _Nome 3_ | _RA_ | _ex.: testes, dados e relatório_ |
+| João Matheus Veríssimo Francisco | 23110331 | Interface, visualização e geradores de instância |
+| Pedro Marques Correa Domingues | 23110137 | Testes, coleta de dados, experimentos |
+| Thiago de Carvalho Galli | 23110635 | Implementação dos algoritmos de coloração e do validador e relatório |
 
 > Preencham a tabela antes da entrega. O histórico de commits também é usado para verificar a participação de cada integrante.
 
@@ -106,7 +106,7 @@ Os mesmos testes também podem ser executados pelo botão "Rodar testes automát
 | Grafos G(n, p) | Gerador do próprio app | Servem para testes de escala e de tempo |
 | Benchmark de Carter (Toronto) | Literatura, por exemplo `car-f-92` | Dados reais de exames e matrículas; **baixar e carregar pelo botão de arquivo** |
 
-_Preencham aqui o link de download do benchmark usado e o nome dos arquivos._
+Download direto: https://people.cs.nott.ac.uk/pszrq/files/Toronto.zip, com as 13 instâncias. O car-f-92.stu deve estar dentro do zip.
 
 **Limitações dos dados:** os dados sintéticos refletem as hipóteses do gerador (3 a 7 provas por aluno, popularidade das disciplinas decrescente). Os benchmarks de Carter são antigos e ignoram capacidade de salas e restrições de professores.
 
@@ -156,7 +156,6 @@ Os algoritmos de coloração ficam isolados em `js/coloracao.js`, sem dependênc
 
 Foi utilizada uma ferramenta de IA (Claude, da Anthropic) como apoio na definição do problema, na explicação dos algoritmos e na geração inicial do código da aplicação e deste README.
 
-_Complementem com: as etapas em que a IA foi usada, o que foi produzido com ela e como o grupo revisou e validou os resultados (testes, comparação com casos conhecidos, leitura do código). Todos os integrantes devem ser capazes de explicar o código e as decisões._
 
 ## Referências
 
